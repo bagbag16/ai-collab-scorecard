@@ -56,7 +56,8 @@ All score fields are integers from `0` to `100`.
   },
   "composite": {
     "score": 0,
-    "band": "Fragile or Insufficient|Developing|Solid|Strong|Exceptional"
+    "band": "Fragile or Insufficient|Developing|Solid|Strong|Exceptional",
+    "band_zh": "薄弱或证据不足|发展中|稳健|强|卓越"
   },
   "scoring_breakdown": {
     "problem_framing": {
@@ -86,7 +87,9 @@ All score fields are integers from `0` to `100`.
       "reasons": ["string"]
     },
     "secondary_tendency": "string",
+    "secondary_tendency_zh": "string",
     "risk_modifiers": ["string"],
+    "risk_modifiers_zh": ["string"],
     "classification_confidence": "low|medium|high",
     "all_fit_scores": {
       "ai-systems-architect": 0,
@@ -118,7 +121,7 @@ All score fields are integers from `0` to `100`.
     "superpower": "string",
     "comedy_failure_mode": "string",
     "best_ai_setup": "string",
-    "tiny_disclaimer": "Evidence-based AI collaboration summary. Not IQ, personality, or hiring advice."
+    "tiny_disclaimer": "基于证据的 AI 协作摘要，不是 IQ、人格或招聘建议。"
   },
   "limits": ["string"]
 }
@@ -139,6 +142,38 @@ The standard share-card renderer requires:
 - `share_card.comedy_failure_mode`
 
 Chinese fields are optional but should be filled for Chinese reports.
+
+## Human-Facing Chinese Output
+
+For Chinese reports, use Chinese labels in the readable conclusion even though JSON keys remain English for scripts.
+
+Dimension display names:
+
+| JSON key | Chinese display name |
+|---|---|
+| `problem_framing` | 问题定义与约束控制 |
+| `reasoning_modeling` | 推理建模与机制抽象 |
+| `evidence_verification` | 证据校验与验证纪律 |
+| `ai_orchestration` | AI 编排与批判性审阅 |
+| `delivery_iteration` | 交付转化与迭代沉淀 |
+
+Value translations:
+
+| Machine value | Chinese display value |
+|---|---|
+| `low` | 低 |
+| `medium` | 中 |
+| `high` | 高 |
+| `Fragile or Insufficient` | 薄弱或证据不足 |
+| `Developing` | 发展中 |
+| `Solid` | 稳健 |
+| `Strong` | 强 |
+| `Exceptional` | 卓越 |
+| `complete` | 完整 |
+| `complete-with-warning` | 完整但有警告 |
+| `blocked` | 阻塞 |
+
+When presenting worktype classification, prefer `serious_name_zh`, `share_name_zh`, `secondary_tendency_zh`, `risk_modifiers_zh`, and `band_zh`. Do not display English enum values such as `verification-gap` or `balanced within primary type` in the main conclusion.
 
 Use `references/setup-and-data-sources.md` and `references/sampling-protocol.md` to build `corpus.manifest_id`, `corpus.manifest_sha256`, `corpus.source_count`, and `corpus.evidence_confidence`. Use `references/evidence-abstraction-pipeline.md` to map raw records into dimension evidence. Use `scripts/classify_worktype.py` to fill `worktype` deterministically after the five dimension scores are finalized.
 

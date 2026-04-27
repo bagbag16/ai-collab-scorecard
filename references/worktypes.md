@@ -2,6 +2,8 @@
 
 Use this file to derive worktypes from the full five-dimension profile. Do not classify by the single strongest dimension.
 
+For Chinese human-facing reports, display Chinese names and Chinese explanations: use `Chinese serious name`, `Chinese share name`, `secondary_tendency_zh`, `risk_modifiers_zh`, and `band_zh` when available. English registry names and enum values are for deterministic matching, JSON compatibility, and cross-language comparison only.
+
 ## Canonical Dimensions
 
 Use this vector order:

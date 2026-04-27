@@ -82,6 +82,32 @@ SECONDARY_BY_DIMENSION = {
     "delivery_iteration": "delivery-integrator tendency",
 }
 
+SECONDARY_BY_DIMENSION_ZH = {
+    "problem_framing": "问题界定倾向",
+    "reasoning_modeling": "机制建构倾向",
+    "evidence_verification": "证据校验倾向",
+    "ai_orchestration": "AI 编排倾向",
+    "delivery_iteration": "交付封装倾向",
+}
+
+RISK_MODIFIERS_ZH = {
+    "abstraction-outpaces-landing": "抽象推进快于落地",
+    "fast-delegation-risk": "快速委托导致校验不足",
+    "scope-expansion-risk": "边界扩张风险",
+    "verification-gap": "验证缺口",
+    "human-steering-unclear": "人类主导痕迹不足",
+    "delivery-bottleneck": "交付瓶颈",
+    "balanced-high-performer": "高水平均衡",
+}
+
+BAND_ZH = {
+    "Exceptional": "卓越",
+    "Strong": "强",
+    "Solid": "稳健",
+    "Developing": "发展中",
+    "Fragile or Insufficient": "薄弱或证据不足",
+}
+
 
 def skill_dir() -> Path:
     return Path(__file__).resolve().parents[1]
@@ -230,6 +256,15 @@ def secondary_tendency(normalized: list[float], primary_type: str) -> str:
     return SECONDARY_BY_DIMENSION[DIMENSIONS[index]]
 
 
+def secondary_tendency_zh(normalized: list[float], primary_type: str) -> str:
+    prototype = REGISTRY[primary_type]["prototype"]
+    residuals = [score - base for score, base in zip(normalized, prototype)]
+    index = max(range(len(residuals)), key=residuals.__getitem__)
+    if residuals[index] <= 0.10:
+        return "主类型内较均衡"
+    return SECONDARY_BY_DIMENSION_ZH[DIMENSIONS[index]]
+
+
 def load_copy_defaults() -> dict[str, Any]:
     path = skill_dir() / "references" / "share-copy.json"
     return load_json(path)
@@ -258,6 +293,7 @@ def classify(data: dict[str, Any], fill_share_copy: bool = True) -> dict[str, An
     type_copy = copy_defaults.get("type_copy", {}).get(primary_type, {})
     registry = REGISTRY[primary_type]
 
+    risks = risk_modifiers(normalized, data)
     worktype = {
         "type_id": primary_type,
         "serious_name": registry["serious_name"],
@@ -268,7 +304,9 @@ def classify(data: dict[str, Any], fill_share_copy: bool = True) -> dict[str, An
         "prototype_fit_score": primary_raw_fit,
         "evidence_sufficiency": evidence_fit,
         "secondary_tendency": secondary_tendency(normalized, primary_type),
-        "risk_modifiers": risk_modifiers(normalized, data),
+        "secondary_tendency_zh": secondary_tendency_zh(normalized, primary_type),
+        "risk_modifiers": risks,
+        "risk_modifiers_zh": [RISK_MODIFIERS_ZH.get(risk, risk) for risk in risks],
         "classification_confidence": evidence_fit["classification_confidence"],
         "all_fit_scores": all_fits,
         "all_prototype_fit_scores": raw_all_fits,
@@ -282,6 +320,7 @@ def classify(data: dict[str, Any], fill_share_copy: bool = True) -> dict[str, An
     result.setdefault("composite", {})
     result["composite"]["score"] = composite(raw_scores)
     result["composite"]["band"] = composite_band(result["composite"]["score"])
+    result["composite"]["band_zh"] = BAND_ZH[result["composite"]["band"]]
 
     if fill_share_copy:
         share_card = dict(result.get("share_card", {}))
@@ -289,13 +328,13 @@ def classify(data: dict[str, Any], fill_share_copy: bool = True) -> dict[str, An
         share_card.setdefault("comedy_failure_mode", type_copy.get("comedy_failure_mode", ""))
         share_card.setdefault(
             "tiny_disclaimer",
-            "Evidence-based AI collaboration summary. Not IQ, personality, or hiring advice.",
+            "基于证据的 AI 协作摘要，不是 IQ、人格或招聘建议。",
         )
         result["share_card"] = share_card
 
     if result.get("corpus", {}).get("evidence_confidence") == "low":
         result.setdefault("limits", [])
-        result["limits"].append("Low corpus confidence: worktype is tentative and displayed fit_score has been reduced for evidence sufficiency.")
+        result["limits"].append("语料证据置信度较低：工作型判断是暂定结果，展示用匹配度已按证据充分性下调。")
 
     return result
 

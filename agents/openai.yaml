@@ -1,4 +1,4 @@
 interface:
   display_name: "AI 协作能力评分"
   short_description: "评估长期 AI 协作语料中的认知工作能力与评分画像"
-  default_prompt: "Use $ai-collab-scorecard to evaluate a long-term AI collaboration corpus and produce a neutral scorecard."
+  default_prompt: "使用 $ai-collab-scorecard 评估长期 AI 协作语料，并用中文输出完整、中立、基于证据的评分卡。"
