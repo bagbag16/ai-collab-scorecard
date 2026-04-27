@@ -20,21 +20,24 @@ It is designed for work review, coaching, and collaboration pattern analysis. It
 Send this single message to Codex:
 
 ```text
-请安装并运行 AI Collab Scorecard：https://github.com/bagbag16/ai-collab-scorecard。
-我授权你在本机完成以下最小必要操作：联网下载或更新仓库，写入本地 Codex skills 目录，运行 skill 自检脚本，必要时安装 PyYAML，必要时用 main.zip 替代 git；并授权你只读访问当前 Codex/当前软件在本机可访问的历史聊天记录作为测评语料。请只读取 Codex 自有或明确属于当前会话历史的记录，不读取浏览器、凭据、无关私人目录或其他软件数据。
-安装后如果当前会话还不能通过 $ai-collab-scorecard 触发 skill，请直接读取已安装目录里的 SKILL.md 和 references/setup-and-data-sources.md，并在同一会话继续执行，不要要求我新开窗口。
-执行过程使用低打扰模式：只输出必要进度和最终中文结果；不要粘贴安装命令、原始诊断日志、重复检查结果或无关解释。若遇到我未授权或无法自动补齐的外部条件，只列出阻塞项和最小下一步。
+请安装并运行 AI Collab Scorecard：https://github.com/bagbag16/ai-collab-scorecard。优先执行仓库里的 scripts/bootstrap.ps1 自动完成下载、安装、更新、自检和可补齐项；我授权本轮进行必要的联网下载、写入本地 Codex skills、安装 PyYAML、运行自检，并只读访问当前 Codex/当前软件历史作为测评语料。仅限 Codex/当前软件历史，不读浏览器、凭据或无关目录。全程低打扰，最终只输出一份中文完整结果；遇到越界或无法补齐项时只列最小下一步。
 ```
+
+For Codex, this is the preferred path. It should use `scripts/bootstrap.ps1` and continue in the same chat after installation.
 
 ## Manual Install Without Git
 
-Run this in PowerShell:
+Run this in PowerShell only when you are installing manually without Codex:
 
 ```powershell
 $Url="https://github.com/bagbag16/ai-collab-scorecard/archive/refs/heads/main.zip"; $Zip=Join-Path $env:TEMP "ai-collab-scorecard.zip"; $Extract=Join-Path $env:TEMP "ai-collab-scorecard-download"; Remove-Item -Recurse -Force $Extract -ErrorAction SilentlyContinue; Invoke-WebRequest $Url -OutFile $Zip; Expand-Archive $Zip -DestinationPath $Extract -Force; $Src=Join-Path $Extract "ai-collab-scorecard-main"; $Root=if($env:CODEX_HOME){$env:CODEX_HOME}else{Join-Path $env:USERPROFILE ".codex"}; $Dst=Join-Path $Root "skills\ai-collab-scorecard"; New-Item -ItemType Directory -Force -Path $Dst | Out-Null; Copy-Item -Recurse -Force -Path (Join-Path $Src "*") -Destination $Dst
 ```
 
-Then open a new Codex chat and use the post-install prompt above.
+Then run:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File "%USERPROFILE%\.codex\skills\ai-collab-scorecard\scripts\bootstrap.ps1"
+```
 
 ## Privacy Boundary
 
