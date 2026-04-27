@@ -16,7 +16,7 @@ $Src=(Resolve-Path ".\ai-collab-scorecard").Path; $Root=if($env:CODEX_HOME){$env
 ```
 
 ```text
-Use $ai-collab-scorecard. Run the installed skill validation and deterministic share-card render self-check, then report whether the skill is ready to assess an explicitly provided AI collaboration corpus.
+使用 $ai-collab-scorecard。请先询问我是否授权你只读访问当前 Codex/当前软件在本机可访问的历史聊天记录作为测评语料；在我明确授权前，不要读取本机历史。获得授权后，请运行已安装 skill 的结构校验和分享图确定性渲染自检，只读检查 Codex 自有或明确属于当前会话历史的本地记录，冻结可复现的语料范围，并直接输出完整测评结果。若我不授权，或本机历史不可访问、格式不可读取、混有无关私密数据，则改为请求我提供导出语料或指定目录。
 ```
 
 The required runtime files are bundled in the skill:
@@ -55,17 +55,18 @@ Allowed source classes:
 | Repo history | commits, PR descriptions, review comments, change logs | evidence for iteration and adoption |
 | External collaboration logs | Feishu/Slack/email excerpts, only when explicitly provided | supplementary context, not primary scoring unless raw AI interaction is visible |
 
-Do not silently scrape hidden app databases, unrelated private folders, browser profiles, credentials, or system caches. If the user asks for "all Codex history" and no source path or export is available, ask for the export/path or inspect only clearly named, user-authorized Codex history locations.
+Do not silently scrape hidden app databases, unrelated private folders, browser profiles, credentials, or system caches. If the user wants to use "current Codex/software history", first ask for explicit permission to inspect that local history read-only unless permission was already granted in the same turn. After permission is granted, treat it as a source declaration: inspect only Codex-owned or clearly session-related history locations read-only, then freeze a manifest. Ask for an export/path when permission is not granted, no accessible Codex history can be found, or the visible storage is proprietary, encrypted, or mixed with unrelated private data.
 
 ## Codex History Acquisition
 
 Use this order:
 
 1. Current visible thread: use the conversation context and files created in the workspace.
-2. User-provided export: prefer exported Codex conversations, session transcripts, or copied logs.
-3. User-provided directory: scan only the declared folder or files.
-4. Known local history directory: inspect read-only only after the user has explicitly asked for all local Codex history or named the location.
-5. If the storage format is encrypted, proprietary, unavailable, or mixed with unrelated private data, stop and ask the user to export the relevant conversations.
+2. Current Codex/software history: ask for and receive explicit read-only local-history permission first; then inspect only Codex-owned or clearly session-related local history locations.
+3. User-provided export: prefer exported Codex conversations, session transcripts, or copied logs.
+4. User-provided directory: scan only the declared folder or files.
+5. Known local history directory: inspect read-only only after the user has explicitly asked for all local Codex history or named the location.
+6. If the storage format is encrypted, proprietary, unavailable, or mixed with unrelated private data, stop and ask the user to export the relevant conversations.
 
 For repeatability, never score from an implicit moving target. First freeze a corpus manifest.
 
