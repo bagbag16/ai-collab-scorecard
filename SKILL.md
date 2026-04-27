@@ -16,6 +16,7 @@ Respond in the user's language. For Chinese users, all human-facing conclusions,
 ## Interaction Mode
 
 - Default to low-friction execution for end users: one consolidated permission request at most, concise progress, and one final Chinese result.
+- For first-time install/run requests, prefer `scripts/bootstrap.ps1` as the deterministic entrypoint. It handles repository acquisition, installation/update, environment diagnostics, validator repair, and render self-check before the assessment continues.
 - If the user already grants network, write, install, validation, rendering, and read-only Codex/software history permissions in the same message, do not ask those permissions again except for platform-required tool approvals.
 - Do not require a new Codex window after installation. If `$ai-collab-scorecard` is not discoverable in the current session, read the installed `SKILL.md` and `references/setup-and-data-sources.md` from disk and continue the same workflow in the current conversation.
 - Suppress raw diagnostic JSON, install commands, repeated validation logs, and long environment explanations unless a check fails or the user asks for debug detail.
@@ -33,6 +34,7 @@ Respond in the user's language. For Chinese users, all human-facing conclusions,
 ## Workflow
 
 0. If the user asks how to install, use, or reuse the skill, read `references/setup-and-data-sources.md` first:
+   - For a new user, run `scripts/bootstrap.ps1` when available instead of manually reproducing install steps
    - Verify the skill folder is installed under the active Codex skills directory
    - Run the basic skill validation when useful
    - Explain required runtime assumptions before collecting private history
