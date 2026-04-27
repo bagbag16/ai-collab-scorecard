@@ -35,7 +35,9 @@ Respond in the user's language. Keep the canonical English dimension labels stab
    - Role/domain expectations
    - Whether the goal is self-review, coaching, team abstraction, or comparison
    - Corpus manifest or sampling method from `references/sampling-protocol.md`
-   - If the user asks for "all Codex history", use only user-authorized exports, visible conversation context, or explicitly allowed local history directories; do not silently scrape unrelated private app data
+   - If the user asks to use "all current Codex/software history" but has not explicitly granted local-history access in this turn, first ask for permission to inspect current Codex/software history read-only; do not assume elevated local access
+   - After the user grants permission, treat the current local Codex history as the intended corpus: inspect only Codex-owned or clearly session-related history locations read-only, freeze a manifest, and do not require manual pasted logs unless the local history is unavailable
+   - If the user asks for "all Codex history" without explicit authorization, use only user-authorized exports, visible conversation context, or explicitly allowed local history directories; do not silently scrape unrelated private app data
 
 2. Build an evidence map:
    - Task types and difficulty
