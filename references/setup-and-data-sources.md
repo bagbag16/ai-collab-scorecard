@@ -2,6 +2,19 @@
 
 Use this file when the user asks how to install the skill, how to run it for another colleague, or how to collect long-term Codex/AI collaboration history.
 
+## Fast Bootstrap For New Users
+
+For a new user, prefer this single-message bootstrap instead of a separate install prompt and a separate usage prompt:
+
+```text
+请安装并运行 AI Collab Scorecard：https://github.com/bagbag16/ai-collab-scorecard。
+我授权你在本机完成以下最小必要操作：联网下载或更新仓库，写入本地 Codex skills 目录，运行 skill 自检脚本，必要时安装 PyYAML，必要时用 main.zip 替代 git；并授权你只读访问当前 Codex/当前软件在本机可访问的历史聊天记录作为测评语料。请只读取 Codex 自有或明确属于当前会话历史的记录，不读取浏览器、凭据、无关私人目录或其他软件数据。
+安装后如果当前会话还不能通过 $ai-collab-scorecard 触发 skill，请直接读取已安装目录里的 SKILL.md 和 references/setup-and-data-sources.md，并在同一会话继续执行，不要要求我新开窗口。
+执行过程使用低打扰模式：只输出必要进度和最终中文结果；不要粘贴安装命令、原始诊断日志、重复检查结果或无关解释。若遇到我未授权或无法自动补齐的外部条件，只列出阻塞项和最小下一步。
+```
+
+This message is explicit authorization for the listed scope only. If a required action falls outside that scope, ask once for the missing permission. Platform-level approval dialogs may still appear, but the assistant should not add extra conversational permission loops.
+
 ## Installation And Validation
 
 Install the skill by placing the folder at one of these locations:
@@ -9,14 +22,14 @@ Install the skill by placing the folder at one of these locations:
 - `%USERPROFILE%\.codex\skills\ai-collab-scorecard`
 - The active `$CODEX_HOME\skills\ai-collab-scorecard` directory, when `CODEX_HOME` is set
 
-One-line install-and-use handoff: run the PowerShell install command from the parent directory that contains `ai-collab-scorecard`, then open a new Codex chat and send the smoke-test prompt to verify the installed skill.
+Manual install handoff: run the PowerShell install command from the parent directory that contains `ai-collab-scorecard`. If the current session cannot discover `$ai-collab-scorecard` after installation, read the installed `SKILL.md` and continue from disk instead of forcing the user to open a new chat.
 
 ```powershell
 $Src=(Resolve-Path ".\ai-collab-scorecard").Path; $Root=if($env:CODEX_HOME){$env:CODEX_HOME}else{Join-Path $env:USERPROFILE ".codex"}; $Dst=Join-Path $Root "skills\ai-collab-scorecard"; New-Item -ItemType Directory -Force -Path $Dst | Out-Null; Copy-Item -Recurse -Force -Path (Join-Path $Src "*") -Destination $Dst
 ```
 
 ```text
-使用 $ai-collab-scorecard。请先运行环境诊断、skill 结构校验和分享图确定性渲染自检；如果缺少 git、Python、PyYAML、PowerShell 渲染能力、字体、图片资产、写入权限、网络权限或历史记录权限，不要直接停止或输出半成品，而是列出缺失项、说明需要我授权的最小操作，并在我授权后主动补齐。请先询问我是否授权你只读访问当前 Codex/当前软件在本机可访问的历史聊天记录作为测评语料；在我明确授权前，不要读取本机历史。获得授权后，只读检查 Codex 自有或明确属于当前会话历史的本地记录，冻结可复现的语料范围，并直接输出完整测评结果。除 JSON key、脚本路径、文件名和固定 type_id 外，面向用户的测评结论全部使用中文。若我不授权，或本机历史不可访问、格式不可读取、混有无关私密数据，则改为请求我提供导出语料或指定目录。
+使用 $ai-collab-scorecard。以低打扰模式运行环境诊断、必要自检和测评；如需读取当前 Codex/当前软件的本机历史，请只在本轮一次性询问只读授权。若缺少可补齐的环境项，请合并列出最小授权请求并继续补齐。最终只输出一份中文完整结果和必要自检摘要，不输出原始日志、重复结果或无关解释。
 ```
 
 The required runtime files are bundled in the skill:
@@ -46,6 +59,8 @@ Runtime scorecard generation does not require network access. Runtime image gene
 Use this protocol whenever a colleague's machine does not produce the full expected result because of missing tools, different local configuration, unavailable history, blocked network, or incomplete assets.
 
 Do not stop at the first failure. The expected behavior is: diagnose, request the minimum permission needed, repair or route around the gap, then continue until a complete scorecard is produced or a concrete external blocker remains.
+
+Default to low-friction output: summarize diagnostics instead of pasting raw JSON, request missing permissions in one consolidated message, and continue after authorization without restarting the conversation.
 
 1. Run the environment diagnostic:
 
