@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "asset_set_id": "ai-collab-worktypes-v1",
+  "runtime_generation": "disabled",
+  "asset_root": "assets/worktype-illustrations",
+  "asset_production_brief": "references/asset-production/worktype-avatar-brief.md",
+  "runtime_policy": {
+    "use_only_status": "confirmed",
+    "text_policy": "All critical text is rendered by the card renderer, never by the image asset."
+  },
+  "types": {
+    "ai-systems-architect": {
+      "file": "ai-systems-architect.png",
+      "status": "confirmed"
+    },
+    "prompt-air-traffic-controller": {
+      "file": "prompt-air-traffic-controller.png",
+      "status": "confirmed"
+    },
+    "evidence-auditor": {
+      "file": "evidence-auditor.png",
+      "status": "confirmed"
+    },
+    "problem-architect": {
+      "file": "problem-architect.png",
+      "status": "confirmed"
+    },
+    "system-modeler": {
+      "file": "system-modeler.png",
+      "status": "confirmed"
+    },
+    "delivery-integrator": {
+      "file": "delivery-integrator.png",
+      "status": "confirmed"
+    },
+    "fast-ai-delegator": {
+      "file": "fast-ai-delegator.png",
+      "status": "confirmed"
+    },
+    "abstract-explorer": {
+      "file": "abstract-explorer.png",
+      "status": "confirmed"
+    },
+    "execution-accelerator": {
+      "file": "execution-accelerator.png",
+      "status": "confirmed"
+    },
+    "ai-dependent-operator": {
+      "file": "ai-dependent-operator.png",
+      "status": "confirmed"
+    }
+  }
+}

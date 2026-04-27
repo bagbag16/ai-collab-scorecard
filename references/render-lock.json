@@ -1,0 +1,306 @@
+{
+  "schema_version": 1,
+  "lock_id": "score-ai-collab-share-card-v1-no-tagline-png",
+  "canonical_output": {
+    "format": "png",
+    "width": 1080,
+    "height": 1350,
+    "dpi": 96,
+    "renderer": "scripts/render_share_card_png.ps1"
+  },
+  "font": {
+    "path": "assets/fonts/NotoSansSC-VF.ttf",
+    "sha256": "763146584CF0710223441356B4395E279021B0806C196614377A7A0174AE074A",
+    "load_mode": "private_font_collection",
+    "system_fallback_allowed": false
+  },
+  "rendering": {
+    "graphics_library": "System.Drawing",
+    "smoothing_mode": "AntiAlias",
+    "interpolation_mode": "HighQualityBicubic",
+    "text_rendering_hint": "AntiAliasGridFit",
+    "compositing_quality": "HighQuality",
+    "pixel_offset_mode": "Half"
+  },
+  "asset_policy": {
+    "manifest": "assets/worktype-illustrations/manifest.json",
+    "allowed_status": "confirmed",
+    "selection_key": "worktype.type_id",
+    "runtime_image_generation": false,
+    "embedded_image_text_allowed": false
+  },
+  "asset_source_contract": {
+    "final_asset_ratio": "166:111",
+    "recommended_source_width": 1992,
+    "recommended_source_height": 1332,
+    "minimum_source_width": 996,
+    "minimum_source_height": 666,
+    "four_to_five_allowed_for_final": false,
+    "hero_slot": {
+      "x": 42,
+      "y": 42,
+      "w": 996,
+      "h": 666,
+      "fit": "cover_center"
+    },
+    "hero_local_safe_zone": {
+      "x1": 120,
+      "y1": 40,
+      "x2": 876,
+      "y2": 540
+    },
+    "fade_starts_at_local_y": 518,
+    "edge_safe_margin": 40,
+    "target_visible_character_height": {
+      "min": 520,
+      "max": 590
+    }
+  },
+  "copy_policy": {
+    "tagline_rendered": false,
+    "superpower_max_chars": 20,
+    "weakness_max_chars": 20,
+    "truncate_suffix": "…"
+  },
+  "canvas": {
+    "background": "#F8FAFC",
+    "card": {
+      "x": 42,
+      "y": 42,
+      "w": 996,
+      "h": 1266,
+      "rx": 44
+    }
+  },
+  "layers": [
+    {
+      "name": "full_card_image_wash",
+      "x": 42,
+      "y": 42,
+      "w": 996,
+      "h": 1266,
+      "opacity": 0.16,
+      "clip": "card",
+      "fit": "cover_center"
+    },
+    {
+      "name": "lower_white_veil",
+      "x": 42,
+      "y": 705,
+      "w": 996,
+      "h": 603,
+      "fill": "rgba(255,255,255,0.96)",
+      "clip": "card"
+    },
+    {
+      "name": "hero_image",
+      "x": 42,
+      "y": 42,
+      "w": 996,
+      "h": 666,
+      "opacity": 1,
+      "clip": "card",
+      "fit": "cover_center"
+    },
+    {
+      "name": "hero_fade",
+      "x": 42,
+      "y": 560,
+      "w": 996,
+      "h": 148,
+      "gradient": [
+        "rgba(255,255,255,0)",
+        "rgba(255,255,255,0.93)"
+      ]
+    },
+    {
+      "name": "left_panel",
+      "x": 66,
+      "y": 728,
+      "w": 548,
+      "h": 552,
+      "rx": 28,
+      "fill": "rgba(255,255,255,0.93)"
+    },
+    {
+      "name": "right_panel",
+      "x": 650,
+      "y": 728,
+      "w": 364,
+      "h": 552,
+      "rx": 28,
+      "fill": "rgba(255,255,255,0.93)"
+    }
+  ],
+  "text": {
+    "coordinate_semantics": "top_left_draw_position",
+    "left_panel": {
+      "intro": {
+        "x": 106,
+        "y": 774,
+        "size": 31,
+        "bold": true,
+        "color": "accent",
+        "literal": "你的AI协作型人格是"
+      },
+      "share_name": {
+        "x": 106,
+        "y": 824,
+        "size": 66,
+        "bold": true,
+        "color": "#101828",
+        "source": "worktype.share_name_zh"
+      },
+      "serious_name": {
+        "x": 108,
+        "y": 907,
+        "size": 34,
+        "bold": true,
+        "color": "#475467",
+        "prefix": "严肃类型："
+      },
+      "superpower_label": {
+        "x": 106,
+        "y": 994,
+        "size": 28,
+        "bold": true,
+        "color": "accent",
+        "literal": "高光能力"
+      },
+      "superpower": {
+        "x": 106,
+        "y": 1038,
+        "size": 35,
+        "bold": true,
+        "color": "#101828",
+        "source": "share_card.superpower"
+      },
+      "weakness_label": {
+        "x": 106,
+        "y": 1127,
+        "size": 28,
+        "bold": true,
+        "color": "accent",
+        "literal": "弱项提醒"
+      },
+      "weakness": {
+        "x": 106,
+        "y": 1171,
+        "size": 35,
+        "bold": true,
+        "color": "#344054",
+        "source": "share_card.comedy_failure_mode"
+      },
+      "disclaimer": {
+        "x": 106,
+        "y": 1244,
+        "size": 17,
+        "bold": false,
+        "color": "#98A2B3",
+        "literal": "基于证据的AI协作摘要，不是IQ、人格诊断或用人建议。"
+      }
+    },
+    "score_panel": {
+      "composite_tile": {
+        "x": 672,
+        "y": 768,
+        "w": 146,
+        "h": 132,
+        "rx": 22,
+        "label": "综合分"
+      },
+      "fit_tile": {
+        "x": 836,
+        "y": 768,
+        "w": 146,
+        "h": 132,
+        "rx": 22,
+        "label": "匹配度"
+      },
+      "tile_label_offset": {
+        "x": 22,
+        "y": 25,
+        "size": 25,
+        "bold": true,
+        "color": "#667085"
+      },
+      "tile_score_offset": {
+        "x": 16,
+        "y": 62,
+        "size": 54,
+        "bold": true,
+        "color": "#101828"
+      },
+      "tile_denominator_offset": {
+        "x": 88,
+        "y": 92,
+        "size": 22,
+        "bold": true,
+        "color": "#667085",
+        "x_when_score_is_100": 100
+      },
+      "dimension_title": {
+        "x": 672,
+        "y": 930,
+        "size": 35,
+        "bold": true,
+        "color": "#344054",
+        "literal": "五维分值"
+      },
+      "bar": {
+        "x": 672,
+        "first_y": 990,
+        "row_gap": 56,
+        "track_x_offset": 128,
+        "track_w": 178,
+        "track_h": 20,
+        "track_rx": 10,
+        "label_y_offset": -9,
+        "score_x_offset": 322,
+        "score_y_offset": -10,
+        "score_fill_formula": "round(track_w * score / 100)"
+      },
+      "dimension_order": [
+        {
+          "key": "problem_framing",
+          "label": "问题界定"
+        },
+        {
+          "key": "reasoning_modeling",
+          "label": "推理建模"
+        },
+        {
+          "key": "evidence_verification",
+          "label": "证据验证"
+        },
+        {
+          "key": "ai_orchestration",
+          "label": "AI 编排"
+        },
+        {
+          "key": "delivery_iteration",
+          "label": "交付迭代"
+        }
+      ]
+    }
+  },
+  "type_accents": {
+    "ai-systems-architect": "#3B82F6",
+    "prompt-air-traffic-controller": "#06B6D4",
+    "evidence-auditor": "#F59E0B",
+    "problem-architect": "#8B5CF6",
+    "system-modeler": "#0EA5E9",
+    "delivery-integrator": "#EF4444",
+    "fast-ai-delegator": "#F97316",
+    "abstract-explorer": "#7C3AED",
+    "execution-accelerator": "#22C55E",
+    "ai-dependent-operator": "#64748B"
+  },
+  "validation": {
+    "repeat_render_same_input_must_match_sha256": true,
+    "reference_fixture": {
+      "input": "assets/fixtures/render-fixture-ai-systems-architect.json",
+      "output_sha256": "AECD9F279165C7968B49D727354CA32AD15C05DAEB3F1F839A6353F505B40138"
+    }
+  }
+}

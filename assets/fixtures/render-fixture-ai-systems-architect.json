@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "subject": {
+    "id": "render-fixture",
+    "display_name": "预览用户",
+    "role_context": "AI collaboration"
+  },
+  "scores": {
+    "problem_framing": { "score": 94 },
+    "reasoning_modeling": { "score": 90 },
+    "evidence_verification": { "score": 82 },
+    "ai_orchestration": { "score": 96 },
+    "delivery_iteration": { "score": 86 }
+  },
+  "composite": {
+    "score": 90,
+    "band": "Preview"
+  },
+  "worktype": {
+    "type_id": "ai-systems-architect",
+    "serious_name": "AI Systems Architect",
+    "serious_name_zh": "工作流架构型",
+    "share_name": "Cyber Foreman",
+    "share_name_zh": "赛博包工头",
+    "fit_score": 92,
+    "classification_confidence": "high"
+  },
+  "share_card": {
+    "superpower": "搭建规则、流程与状态系统",
+    "comedy_failure_mode": "易把轻量问题过度工程化处理",
+    "tiny_disclaimer": "基于证据的AI协作摘要，不是IQ、人格诊断或用人建议。"
+  }
+}
