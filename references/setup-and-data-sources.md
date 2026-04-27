@@ -30,7 +30,7 @@ Install the skill by placing the folder at one of these locations:
 Manual install handoff, only if bootstrap is unavailable: run the PowerShell install command from the parent directory that contains `ai-collab-scorecard`. If the current session cannot discover `$ai-collab-scorecard` after installation, read the installed `SKILL.md` and continue from disk instead of forcing the user to open a new chat.
 
 ```powershell
-$Src=(Resolve-Path ".\ai-collab-scorecard").Path; $Root=if($env:CODEX_HOME){$env:CODEX_HOME}else{Join-Path $env:USERPROFILE ".codex"}; $Dst=Join-Path $Root "skills\ai-collab-scorecard"; New-Item -ItemType Directory -Force -Path $Dst | Out-Null; Copy-Item -Recurse -Force -Path (Join-Path $Src "*") -Destination $Dst
+$Src=(Resolve-Path ".\ai-collab-scorecard").Path; $Root=if($env:CODEX_HOME){$env:CODEX_HOME}else{Join-Path $env:USERPROFILE ".codex"}; $Dst=Join-Path $Root "skills\ai-collab-scorecard"; New-Item -ItemType Directory -Force -Path $Dst | Out-Null; Get-ChildItem -LiteralPath $Dst -Force | Remove-Item -Recurse -Force; foreach($Item in @("SKILL.md","agents","assets","references","scripts")){$SourceItem=Join-Path $Src $Item; if(Test-Path -LiteralPath $SourceItem){Copy-Item -Recurse -Force -LiteralPath $SourceItem -Destination $Dst}}
 ```
 
 ```text
