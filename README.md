@@ -1,0 +1,46 @@
+# AI Collab Scorecard
+
+AI Collab Scorecard is a Codex skill for evaluating long-term AI/Codex collaboration records. It turns chat history, prompts, corrections, tool traces, and produced artifacts into an evidence-grounded scorecard.
+
+It is designed for work review, coaching, and collaboration pattern analysis. It is not an IQ test, personality diagnosis, hiring decision tool, or clinical assessment.
+
+## What It Outputs
+
+- Five dimension scores, each as an integer out of 100
+- Composite score, as an integer out of 100
+- Evidence confidence
+- AI collaboration worktype and fit score
+- Secondary tendency and risk modifier
+- Evidence by dimension
+- Capability profile, bottleneck, and improvement levers
+- Optional deterministic share-card PNG
+
+## Quick Start For Codex
+
+Send this to Codex to install the skill:
+
+```text
+请从 https://github.com/bagbag16/ai-collab-scorecard 安装这个 skill 到本地 Codex skills 目录，skill 名为 ai-collab-scorecard。如果本机没有 git，请下载 main.zip 解压安装，不要因为 git 不存在而停止。
+```
+
+After installation, start a new Codex chat and send:
+
+```text
+使用 $ai-collab-scorecard。请先询问我是否授权你只读访问当前 Codex/当前软件在本机可访问的历史聊天记录作为测评语料；在我明确授权前，不要读取本机历史。获得授权后，请运行已安装 skill 的结构校验和分享图确定性渲染自检，只读检查 Codex 自有或明确属于当前会话历史的本地记录，冻结可复现的语料范围，并直接输出完整测评结果。若我不授权，或本机历史不可访问、格式不可读取、混有无关私密数据，则改为请求我提供导出语料或指定目录。
+```
+
+## Manual Install Without Git
+
+Run this in PowerShell:
+
+```powershell
+$Url="https://github.com/bagbag16/ai-collab-scorecard/archive/refs/heads/main.zip"; $Zip=Join-Path $env:TEMP "ai-collab-scorecard.zip"; $Extract=Join-Path $env:TEMP "ai-collab-scorecard-download"; Remove-Item -Recurse -Force $Extract -ErrorAction SilentlyContinue; Invoke-WebRequest $Url -OutFile $Zip; Expand-Archive $Zip -DestinationPath $Extract -Force; $Src=Join-Path $Extract "ai-collab-scorecard-main"; $Root=if($env:CODEX_HOME){$env:CODEX_HOME}else{Join-Path $env:USERPROFILE ".codex"}; $Dst=Join-Path $Root "skills\ai-collab-scorecard"; New-Item -ItemType Directory -Force -Path $Dst | Out-Null; Copy-Item -Recurse -Force -Path (Join-Path $Src "*") -Destination $Dst
+```
+
+Then open a new Codex chat and use the post-install prompt above.
+
+## Privacy Boundary
+
+The skill must not silently read local history. If current Codex/software history is needed, it should ask for explicit read-only permission first. If permission is not granted, or the local history is unavailable, unreadable, encrypted, proprietary, or mixed with unrelated private data, use an exported transcript or a user-specified directory instead.
+
+The share card is a playful derivative. The serious scorecard remains the source of truth.
