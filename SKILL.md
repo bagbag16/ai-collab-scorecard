@@ -13,6 +13,14 @@ Use `references/setup-and-data-sources.md` when installing, validating, or colle
 
 Respond in the user's language. For Chinese users, all human-facing conclusions, headings, score labels, dimension names, worktype descriptions, status notes, evidence bullets, limits, and share-card explanations must be in Chinese. Keep English only for machine-readable JSON keys, script arguments, file paths, fixed `type_id` values, or an optional appendix when cross-person comparison requires canonical English labels.
 
+## Interaction Mode
+
+- Default to low-friction execution for end users: one consolidated permission request at most, concise progress, and one final Chinese result.
+- If the user already grants network, write, install, validation, rendering, and read-only Codex/software history permissions in the same message, do not ask those permissions again except for platform-required tool approvals.
+- Do not require a new Codex window after installation. If `$ai-collab-scorecard` is not discoverable in the current session, read the installed `SKILL.md` and `references/setup-and-data-sources.md` from disk and continue the same workflow in the current conversation.
+- Suppress raw diagnostic JSON, install commands, repeated validation logs, and long environment explanations unless a check fails or the user asks for debug detail.
+- Avoid duplicate conclusions: output one short self-check summary, then one complete scorecard. Do not repeat the same scores in multiple prose blocks unless it clarifies a decision.
+
 ## Guardrails
 
 - Score only evidence visible in the corpus: prompts, corrections, constraints, decisions, review comments, artifact changes, and follow-up results.
