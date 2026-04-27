@@ -13,11 +13,13 @@ $ErrorActionPreference = "Stop"
 $SkillName = "ai-collab-scorecard"
 $Result = [ordered]@{
   status = "ok"
+  readiness = "ready"
   skill_name = $SkillName
   source = ""
   acquisition = ""
   installed_to = ""
   checks = [ordered]@{}
+  diagnostic_warnings = @()
   repairs = @()
   warnings = @()
   blockers = @()
@@ -65,9 +67,22 @@ function Get-LocalSource {
 
 function Assert-SafeTempPath([string]$Path) {
   $tempRoot = [System.IO.Path]::GetFullPath($env:TEMP)
+  if (-not $tempRoot.EndsWith("\")) { $tempRoot = $tempRoot + "\" }
   $full = [System.IO.Path]::GetFullPath($Path)
   if (-not $full.StartsWith($tempRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
     throw "Refusing to clean non-temp path: $full"
+  }
+}
+
+function Assert-SafeInstallPath([string]$Path) {
+  $codexRoot = [System.IO.Path]::GetFullPath((Resolve-CodexRoot))
+  if (-not $codexRoot.EndsWith("\")) { $codexRoot = $codexRoot + "\" }
+  $full = [System.IO.Path]::GetFullPath($Path)
+  if (-not $full.StartsWith($codexRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "Refusing to modify install path outside Codex root: $full"
+  }
+  if ((Split-Path -Leaf $full) -ne $SkillName) {
+    throw "Refusing to modify unexpected skill directory: $full"
   }
 }
 
@@ -99,11 +114,17 @@ function Acquire-FromNetwork {
     Add-Warning "Git was not found. Falling back to main.zip."
   }
 
+  try {
+    [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+  } catch {
+    Add-Warning "Could not force TLS 1.2 for zip download. Continuing with system defaults."
+  }
+
   $zipUrl = ($RepoUrl.TrimEnd("/")) + "/archive/refs/heads/$Branch.zip"
   $zipPath = Join-Path $workRoot "$SkillName.zip"
   $extractDir = Join-Path $workRoot "zip"
   try {
-    Invoke-WebRequest -Uri $zipUrl -OutFile $zipPath
+    Invoke-WebRequest -UseBasicParsing -Uri $zipUrl -OutFile $zipPath
     Expand-Archive -LiteralPath $zipPath -DestinationPath $extractDir -Force
     $source = Get-ChildItem -LiteralPath $extractDir -Directory |
       Where-Object { Test-SkillSource $_.FullName } |
@@ -131,8 +152,27 @@ function Copy-Skill([string]$Source, [string]$Destination) {
     $script:Result.repairs += "Source is already the install directory; copy skipped."
     return
   }
-  Copy-Item -Recurse -Force -Path (Join-Path $Source "*") -Destination $Destination
+  Assert-SafeInstallPath $Destination
+  Get-ChildItem -LiteralPath $Destination -Force | Remove-Item -Recurse -Force
+  foreach ($item in @("SKILL.md", "agents", "assets", "references", "scripts")) {
+    $sourceItem = Join-Path $Source $item
+    if (Test-Path -LiteralPath $sourceItem) {
+      Copy-Item -Recurse -Force -LiteralPath $sourceItem -Destination $Destination
+    }
+  }
   $script:Result.repairs += "Installed or updated the skill in the local Codex skills directory."
+}
+
+function Summarize-DiagnosticWarnings($Diagnostic) {
+  if (-not $Diagnostic -or -not $Diagnostic.checks) { return }
+  foreach ($check in @($Diagnostic.checks)) {
+    if ($check.status -eq "warn") {
+      $warning = "$($check.name): $($check.detail)"
+      if ($script:Result.diagnostic_warnings -notcontains $warning) {
+        $script:Result.diagnostic_warnings += $warning
+      }
+    }
+  }
 }
 
 function Run-JsonScript([string]$ScriptPath) {
@@ -220,17 +260,26 @@ if ($source) {
   $diagScript = Join-Path $destination "scripts\check_environment.ps1"
   $diag = Run-JsonScript $diagScript
   $Result.checks.environment = $diag.status
+  Summarize-DiagnosticWarnings $diag
   if ($diag.status -eq "fail") { Add-Warning "Environment diagnostic has failed checks." }
   Ensure-PyYAML $diag
 
   $diag2 = Run-JsonScript $diagScript
   $Result.checks.environment_after_repair = $diag2.status
+  Summarize-DiagnosticWarnings $diag2
   $Result.checks.quick_validate = Run-QuickValidate $destination
   $Result.checks.render_self_check = Run-RenderSelfCheck $destination
   $Result.continue_in_current_session = "Read $destination\SKILL.md and $destination\references\setup-and-data-sources.md, then continue the assessment in this same chat. Do not ask the user to open a new window."
 }
 
-if ($Result.blockers.Count -gt 0) { $Result.status = "blocked" }
-elseif ($Result.warnings.Count -gt 0 -and $Result.status -eq "ok") { $Result.status = "warn" }
+if ($Result.blockers.Count -gt 0) {
+  $Result.status = "blocked"
+  $Result.readiness = "blocked"
+} elseif ($Result.warnings.Count -gt 0 -and $Result.status -eq "ok") {
+  $Result.status = "warn"
+  $Result.readiness = "ready-with-warning"
+} elseif ($Result.diagnostic_warnings.Count -gt 0) {
+  $Result.readiness = "ready-with-diagnostic-warning"
+}
 
 $Result | ConvertTo-Json -Depth 8
