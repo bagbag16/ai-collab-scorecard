@@ -11,7 +11,7 @@ Assess observable cognitive work behavior in long-term AI collaboration records.
 
 Use `references/setup-and-data-sources.md` when installing, validating, or collecting historical collaboration records. Use `references/sampling-protocol.md` and `scripts/build_corpus_manifest.py` to freeze corpus scope. Use `references/evidence-abstraction-pipeline.md` and `scripts/extract_collab_signals.py` to turn raw history into five-dimension evidence. Use the detailed scoring anchors in `references/rubric.md` when assigning scores. Use `references/output-schema.md` for machine-readable output. Use `references/worktypes.md` and `scripts/classify_worktype.py` when deriving worktypes. Use `references/share-card-image.md`, `references/share-copy.md`, `scripts/render_share_card_png.ps1`, and `scripts/render_share_card.py` when the user asks for a shareable image/card. Use `references/asset-production/worktype-avatar-brief.md` only when producing or replacing the fixed worktype illustration asset batch outside runtime.
 
-Respond in the user's language. Keep the canonical English dimension labels stable when comparison across people or reports matters.
+Respond in the user's language. For Chinese users, all human-facing conclusions, headings, score labels, dimension names, worktype descriptions, status notes, evidence bullets, limits, and share-card explanations must be in Chinese. Keep English only for machine-readable JSON keys, script arguments, file paths, fixed `type_id` values, or an optional appendix when cross-person comparison requires canonical English labels.
 
 ## Guardrails
 
@@ -50,11 +50,11 @@ Respond in the user's language. Keep the canonical English dimension labels stab
    - Use `references/evidence-abstraction-pipeline.md` for session segmentation, evidence tagging, and dimension mapping
 
 3. Score the five minimum dimensions:
-   - Problem Framing and Constraint Control
-   - Reasoning and Model Building
-   - Evidence and Verification Discipline
-   - AI Orchestration and Critical Review
-   - Delivery, Transfer, and Iteration
+   - 问题定义与约束控制 (`problem_framing`)
+   - 推理建模与机制抽象 (`reasoning_modeling`)
+   - 证据校验与验证纪律 (`evidence_verification`)
+   - AI 编排与批判性审阅 (`ai_orchestration`)
+   - 交付转化与迭代沉淀 (`delivery_iteration`)
 
 4. Produce dimension scores and a composite score:
    - Score each dimension as an integer from `0-100`
@@ -69,7 +69,7 @@ Respond in the user's language. Keep the canonical English dimension labels stab
    - Use the full five-dimension score vector, not only the strongest dimension
    - Match against fixed prototypes in `references/worktypes.md`
    - Prefer `scripts/classify_worktype.py` to compute the primary type, fit score, secondary tendency, and risk modifiers from a score JSON
-   - Report the best matching type, integer fit score, secondary tendency, and risk modifier
+   - For Chinese reports, display `serious_name_zh`, `share_name_zh`, `secondary_tendency_zh`, `risk_modifiers_zh`, and `band_zh`; do not expose English enum values in the main conclusion
    - Do not invent new canonical type names
 
 6. Explain the profile:
@@ -94,44 +94,44 @@ Respond in the user's language. Keep the canonical English dimension labels stab
 ## Output Template
 
 ```md
-# AI Collaboration Capability Scorecard
+# AI 协作力评分卡
 
-## Scope
-- Subject:
-- Corpus:
-- Role/domain:
-- Assessment goal:
-- Evidence confidence:
+## 测评范围
+- 测评对象：
+- 语料范围：
+- 角色/领域：
+- 测评目标：
+- 证据置信度：低/中/高
 
-## Scores
-| Dimension | Score /100 | Weight | Confidence | Readout |
+## 分数
+| 维度 | 分数 /100 | 权重 | 置信度 | 解读 |
 |---|---:|---:|---|---|
-| Problem Framing and Constraint Control |  | 22 |  |  |
-| Reasoning and Model Building |  | 22 |  |  |
-| Evidence and Verification Discipline |  | 20 |  |  |
-| AI Orchestration and Critical Review |  | 18 |  |  |
-| Delivery, Transfer, and Iteration |  | 18 |  |  |
+| 问题定义与约束控制 |  | 22 |  |  |
+| 推理建模与机制抽象 |  | 22 |  |  |
+| 证据校验与验证纪律 |  | 20 |  |  |
+| AI 编排与批判性审阅 |  | 18 |  |  |
+| 交付转化与迭代沉淀 |  | 18 |  |  |
 
-Composite score: `__/100`
-Band:
+综合分：`__/100`
+档位：
 
-## Scoring Breakdown
-For each dimension, provide or retain the component breakdown:
-`core_behavior /45`, `cross_task_consistency /20`, `human_ownership /20`, `difficulty_transfer /15`, `counterexample_adjustment`, `caps_applied`, `final_score`.
+## 评分拆解
+每个维度保留以下拆解：
+`核心行为 /45`、`跨任务一致性 /20`、`人类主导性 /20`、`难度迁移 /15`、`反例修正`、`上限限制`、`最终分`。
 
-## Quantitative Profile
-- Score vector: `[problem_framing, reasoning_modeling, evidence_verification, ai_orchestration, delivery_iteration]`
-- Worktype:
-- Worktype fit: `__/100`
-- Secondary tendency:
-- Risk modifier:
-- Confidence:
+## 量化画像
+- 五维向量：`[问题定义, 推理建模, 证据校验, AI 编排, 交付迭代]`
+- AI 协作工作型：
+- 工作型匹配度：`__/100`
+- 第二倾向：
+- 风险修正：
+- 置信度：
 
-## Evidence By Dimension
-## Capability Profile
-## Main Bottleneck
-## Transferable Abstraction For Colleagues
-## Non-Claims And Limits
+## 各维度证据
+## 能力画像
+## 主要瓶颈
+## 可迁移给同事的抽象
+## 非声明与限制
 ```
 
 ## Scoring Discipline
@@ -145,16 +145,16 @@ Do not hide uncertainty inside smooth prose. A useful scorecard is allowed to sa
 Use a share card only as a derivative layer. It should be fun to read, but it is not the source of truth. For a standard final image on Windows, use `scripts/render_share_card_png.ps1` with a JSON result that follows `references/output-schema.md`. For SVG debugging or editable inspection, use `scripts/render_share_card.py`. Both renderers select confirmed assets from `assets/worktype-illustrations/manifest.json`; deterministic placeholder art is only a draft fallback until the fixed image batch is approved.
 
 ```md
-# AI Collaboration Worktype Card
+# AI 协作工作型分享卡
 
-Type:
-What this means:
-How this person tends to use AI:
-Superpower:
-Comedy-grade failure mode:
-Best AI setup:
-Serious scorecard link:
-Tiny disclaimer:
+类型：
+含义：
+这个人倾向于如何使用 AI：
+高光能力：
+喜剧化风险：
+最适合的 AI 配置：
+严肃评分卡链接：
+小字声明：
 ```
 
 Good share-card names describe work behavior, not inner essence. Prefer names like "Problem Architect", "Evidence Auditor", "Workflow Blacksmith", "Prompt Air-Traffic Controller", or "Scope Boundary Patrol". Avoid names that imply intelligence rank, moral worth, mental health, or permanent personality.

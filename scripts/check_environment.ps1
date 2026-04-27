@@ -57,6 +57,16 @@ if ($pythonCommand) {
     $version = & $pythonCommand --version 2>&1
     Add-Check "python" "ok" "${pythonCommand}: $version"
     try {
+      $encoding = (& $pythonCommand -c "import locale; print(locale.getencoding())" 2>$null).Trim()
+      if ($encoding -match "UTF-?8") {
+        Add-Check "python_text_encoding" "ok" "Python default text encoding: $encoding"
+      } else {
+        Add-Check "python_text_encoding" "warn" "Python default text encoding is $encoding; UTF-8 skill files may fail in validators that do not set encoding." 'Run validation with: $env:PYTHONUTF8="1"; python ...'
+      }
+    } catch {
+      Add-Check "python_text_encoding" "warn" "Could not inspect Python text encoding." 'Run validation with: $env:PYTHONUTF8="1"; python ...'
+    }
+    try {
       & $pythonCommand -c "import yaml" 2>$null
       Add-Check "pyyaml" "ok" "PyYAML is available for the system skill validator."
     } catch {
