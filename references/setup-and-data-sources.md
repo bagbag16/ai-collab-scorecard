@@ -16,7 +16,7 @@ $Src=(Resolve-Path ".\ai-collab-scorecard").Path; $Root=if($env:CODEX_HOME){$env
 ```
 
 ```text
-使用 $ai-collab-scorecard。请先询问我是否授权你只读访问当前 Codex/当前软件在本机可访问的历史聊天记录作为测评语料；在我明确授权前，不要读取本机历史。获得授权后，请运行已安装 skill 的结构校验和分享图确定性渲染自检，只读检查 Codex 自有或明确属于当前会话历史的本地记录，冻结可复现的语料范围，并直接输出完整测评结果。若我不授权，或本机历史不可访问、格式不可读取、混有无关私密数据，则改为请求我提供导出语料或指定目录。
+使用 $ai-collab-scorecard。请先运行环境诊断、skill 结构校验和分享图确定性渲染自检；如果缺少 git、Python、PyYAML、PowerShell 渲染能力、字体、图片资产、写入权限、网络权限或历史记录权限，不要直接停止或输出半成品，而是列出缺失项、说明需要我授权的最小操作，并在我授权后主动补齐。请先询问我是否授权你只读访问当前 Codex/当前软件在本机可访问的历史聊天记录作为测评语料；在我明确授权前，不要读取本机历史。获得授权后，只读检查 Codex 自有或明确属于当前会话历史的本地记录，冻结可复现的语料范围，并直接输出完整测评结果。若我不授权，或本机历史不可访问、格式不可读取、混有无关私密数据，则改为请求我提供导出语料或指定目录。
 ```
 
 The required runtime files are bundled in the skill:
@@ -40,6 +40,43 @@ powershell -NoProfile -ExecutionPolicy Bypass -File "%USERPROFILE%\.codex\skills
 ```
 
 Runtime scorecard generation does not require network access. Runtime image generation is disabled.
+
+## Completion Recovery Protocol
+
+Use this protocol whenever a colleague's machine does not produce the full expected result because of missing tools, different local configuration, unavailable history, blocked network, or incomplete assets.
+
+Do not stop at the first failure. The expected behavior is: diagnose, request the minimum permission needed, repair or route around the gap, then continue until a complete scorecard is produced or a concrete external blocker remains.
+
+1. Run the environment diagnostic:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File "%USERPROFILE%\.codex\skills\ai-collab-scorecard\scripts\check_environment.ps1"
+```
+
+2. Classify each diagnostic result:
+   - `ok`: proceed.
+   - `warn`: continue when non-blocking, but mention the reduced check.
+   - `fail`: request the smallest permission or input needed to fix it.
+
+3. Repair in this order:
+   - Skill folder placement: install to `%USERPROFILE%\.codex\skills\ai-collab-scorecard` or active `$CODEX_HOME\skills\ai-collab-scorecard`.
+   - Repository acquisition: use `git clone` when `git` exists; otherwise download `main.zip`.
+   - Python runtime: locate `python` or `py`; if absent, ask the user to install Python 3 or provide a runtime path.
+   - Validator dependency: if `PyYAML` is missing and validation is required, ask permission to run `python -m pip install --user PyYAML`.
+   - Rendering stack: run PowerShell scripts with `-ExecutionPolicy Bypass`; if Windows drawing assemblies are unavailable, report that deterministic PNG rendering is blocked and still complete the serious scorecard.
+   - Bundled assets: verify `assets/worktype-illustrations/manifest.json`, 10 confirmed PNG assets, `assets/fonts/NotoSansSC-VF.ttf`, and `references/render-lock.json`; recopy from the repository if missing.
+   - Corpus access: ask explicit read-only permission before inspecting current Codex/software history; if denied or unavailable, ask for an export/path and continue.
+
+4. After any repair, rerun the failed check rather than assuming the repair worked.
+
+5. The final response must include:
+   - completion status: `complete`, `complete-with-warning`, or `blocked`
+   - checks run
+   - repairs performed or requested
+   - remaining blockers, if any
+   - the full scorecard when enough evidence is available
+
+Only downgrade to a partial result after repair attempts are blocked by missing user permission, unavailable local data, missing external tools the user declines to install, or platform limitations that cannot be fixed from the current session.
 
 ## Data Source Boundary
 

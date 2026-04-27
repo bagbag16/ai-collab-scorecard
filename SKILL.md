@@ -28,6 +28,8 @@ Respond in the user's language. Keep the canonical English dimension labels stab
    - Verify the skill folder is installed under the active Codex skills directory
    - Run the basic skill validation when useful
    - Explain required runtime assumptions before collecting private history
+   - If installation, validation, rendering, or corpus acquisition is incomplete on the current machine, enter the completion recovery protocol in `references/setup-and-data-sources.md`
+   - Do not stop at the first missing dependency or configuration difference; diagnose the gap, ask for the minimum needed permission, repair what can be repaired, and continue toward a complete scorecard
 
 1. Define the assessment scope and data source:
    - Person or team being assessed
