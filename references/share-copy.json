@@ -1,0 +1,113 @@
+{
+  "copy_specs": {
+    "tagline": {
+      "label_zh": "已停用",
+      "max_chars": 40,
+      "target_min_chars": 24,
+      "line_width": 17,
+      "max_lines": 3,
+      "font_size": 27,
+      "rendered_on_standard_card": false
+    },
+    "superpower": {
+      "label_zh": "高光能力",
+      "max_chars": 20,
+      "target_min_chars": 0,
+      "line_width": 20,
+      "max_lines": 1,
+      "font_size": 35
+    },
+    "comedy_failure_mode": {
+      "label_zh": "弱项提醒",
+      "max_chars": 20,
+      "target_min_chars": 0,
+      "line_width": 20,
+      "max_lines": 1,
+      "font_size": 35
+    }
+  },
+  "type_names": {
+    "ai-systems-architect": {
+      "serious_name_zh": "工作流架构型",
+      "share_name_zh": "赛博包工头"
+    },
+    "prompt-air-traffic-controller": {
+      "serious_name_zh": "输出调度型",
+      "share_name_zh": "流水线督工"
+    },
+    "evidence-auditor": {
+      "serious_name_zh": "证据校验型",
+      "share_name_zh": "赛博对账人"
+    },
+    "problem-architect": {
+      "serious_name_zh": "问题界定型",
+      "share_name_zh": "边界判官"
+    },
+    "system-modeler": {
+      "serious_name_zh": "机制建构型",
+      "share_name_zh": "抽象大师"
+    },
+    "delivery-integrator": {
+      "serious_name_zh": "交付封装型",
+      "share_name_zh": "落地狠人"
+    },
+    "fast-ai-delegator": {
+      "serious_name_zh": "初稿驱动型",
+      "share_name_zh": "初稿仙人"
+    },
+    "abstract-explorer": {
+      "serious_name_zh": "概念发散型",
+      "share_name_zh": "脑洞永动机"
+    },
+    "execution-accelerator": {
+      "serious_name_zh": "执行推进型",
+      "share_name_zh": "光速进度条"
+    },
+    "ai-dependent-operator": {
+      "serious_name_zh": "AI主导型",
+      "share_name_zh": "智驾躺平哥"
+    }
+  },
+  "type_copy": {
+    "ai-systems-architect": {
+      "superpower": "搭建规则、流程与状态系统",
+      "comedy_failure_mode": "易把轻量问题过度工程化处理"
+    },
+    "prompt-air-traffic-controller": {
+      "superpower": "调度多轮输出、节奏与接力",
+      "comedy_failure_mode": "流程过重会压低探索弹性空间"
+    },
+    "evidence-auditor": {
+      "superpower": "核验证据、来源、反例与缺口",
+      "comedy_failure_mode": "审查过密会拖慢讨论节奏感"
+    },
+    "problem-architect": {
+      "superpower": "界定目标、边界、非目标范围",
+      "comedy_failure_mode": "前置界定容易拉长启动周期"
+    },
+    "system-modeler": {
+      "superpower": "抽取机制、变量、因果结构",
+      "comedy_failure_mode": "抽象过深会延迟落地节奏感"
+    },
+    "delivery-integrator": {
+      "superpower": "封装成果、模板与交接版本",
+      "comedy_failure_mode": "易重交付形态与包装设计感"
+    },
+    "fast-ai-delegator": {
+      "superpower": "快速生成版本并推动迭代闭环",
+      "comedy_failure_mode": "前期约束与校验容易不够清晰"
+    },
+    "abstract-explorer": {
+      "superpower": "持续发散概念、隐喻与方向",
+      "comedy_failure_mode": "收束与落地节奏容易失焦漂移"
+    },
+    "execution-accelerator": {
+      "superpower": "推进明确任务直到完成交付",
+      "comedy_failure_mode": "容易跳过问题校准与复查环节"
+    },
+    "ai-dependent-operator": {
+      "superpower": "借力AI快速形成可用产出",
+      "comedy_failure_mode": "人工审阅与取舍痕迹偏弱明显"
+    }
+  }
+}
