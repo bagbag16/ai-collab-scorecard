@@ -1,0 +1,34 @@
+name: Validate
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Validate repository structure
+        run: python scripts/validate_repo.py
+
+      - name: Compile Python scripts
+        shell: pwsh
+        run: |
+          python -m py_compile `
+            scripts\build_corpus_manifest.py `
+            scripts\classify_worktype.py `
+            scripts\extract_collab_signals.py `
+            scripts\render_share_card.py `
+            scripts\validate_repo.py
+
+      - name: Render determinism self-check
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\scripts\self_check_render_determinism.ps1
