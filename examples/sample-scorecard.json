@@ -1,0 +1,105 @@
+{
+  "schema_version": 1,
+  "subject": {
+    "id": "sample-user",
+    "display_name": "预览用户",
+    "role_context": "AI collaboration"
+  },
+  "corpus": {
+    "time_window": {
+      "start": "2026-01-01",
+      "end": "2026-04-30"
+    },
+    "source_count": 12,
+    "manifest_id": "sample-manifest",
+    "manifest_sha256": "sample-only",
+    "evidence_confidence": "medium"
+  },
+  "scores": {
+    "problem_framing": {
+      "score": 94,
+      "confidence": "high",
+      "readout": "能持续把开放问题收束成目标、边界、非目标和验收条件。",
+      "evidence": [
+        "多轮任务中先定义输出形态和约束，再要求模型执行。",
+        "能识别需求漂移并主动要求自检、回退或重构。"
+      ]
+    },
+    "reasoning_modeling": {
+      "score": 90,
+      "confidence": "high",
+      "readout": "擅长把经验抽象为框架、流程和稳定判断标准。",
+      "evidence": [
+        "反复要求把维度压缩为最小必要集合。",
+        "要求区分底层评分机制与传播包装。"
+      ]
+    },
+    "evidence_verification": {
+      "score": 82,
+      "confidence": "medium",
+      "readout": "有明确验证意识，但部分证据仍依赖当前可见语料。",
+      "evidence": [
+        "要求自检、跨机器验证和确定性渲染。",
+        "要求输出分值基于明确标准而非凭感觉。"
+      ]
+    },
+    "ai_orchestration": {
+      "score": 96,
+      "confidence": "high",
+      "readout": "能强力调度 AI 完成拆解、生成、修正、外化和产品化。",
+      "evidence": [
+        "持续通过约束、反例和审美判断推动结果升级。",
+        "能区分严肃测评和轻松传播内容的边界。"
+      ]
+    },
+    "delivery_iteration": {
+      "score": 86,
+      "confidence": "medium",
+      "readout": "能推动产物落地为脚本、文档、图像资产和可复用 skill。",
+      "evidence": [
+        "从概念讨论推进到固定资产、确定性渲染和 Git 仓库。",
+        "要求安装、调用、权限、输出格式形成闭环。"
+      ]
+    }
+  },
+  "composite": {
+    "score": 90,
+    "band": "Strong",
+    "band_zh": "强"
+  },
+  "worktype": {
+    "type_id": "ai-systems-architect",
+    "serious_name": "AI Systems Architect",
+    "serious_name_zh": "工作流架构型",
+    "share_name": "Cyber Foreman",
+    "share_name_zh": "赛博包工头",
+    "fit_score": 92,
+    "prototype_fit_score": 94,
+    "evidence_sufficiency": {
+      "factor": 0.98,
+      "sample_level": "source-standard",
+      "classification_confidence": "high",
+      "reasons": [
+        "多轮任务覆盖评分、渲染、安装、文档和复用流程。"
+      ]
+    },
+    "secondary_tendency": "delivery-integrator",
+    "secondary_tendency_zh": "交付封装型",
+    "risk_modifiers": [
+      "verification-gap"
+    ],
+    "risk_modifiers_zh": [
+      "证据验证略低于编排与建模"
+    ],
+    "classification_confidence": "high"
+  },
+  "share_card": {
+    "superpower": "搭建规则、流程与状态系统",
+    "comedy_failure_mode": "易把轻量问题过度工程化",
+    "best_ai_setup": "适合多代理、强约束、可验证的长链路任务。",
+    "tiny_disclaimer": "基于证据的 AI 协作摘要，不是 IQ、人格或招聘建议。"
+  },
+  "limits": [
+    "样例为合成数据，仅用于展示输出结构与渲染效果。"
+  ]
+}
